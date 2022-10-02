@@ -22,6 +22,7 @@ class SnowballFightGame {
 
     fun end() {
         HandlerList.unregisterAll(gameEventListener)
+        gameStatus = GameStatus.AFTER_GAME
     }
 
     fun stop() {
