@@ -22,7 +22,13 @@ dependencies {
 
 bukkit {
     main = "com.github.raink1208.snowballfight.Main"
-    apiVersion = "1.19.2"
+    apiVersion = "1.19"
+
+    commands {
+        register("snowballfight") {
+            aliases = listOf("sfb")
+        }
+    }
 }
 
 tasks.jar {

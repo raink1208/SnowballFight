@@ -9,8 +9,11 @@ import org.bukkit.entity.Player
 
 class GamePlayer(val player: Player): Audience {
     var status = PlayerStatus.SPECTATOR; private set
-    lateinit var team: GameTeam
-    private var health = 0
+    var team: GameTeam? = null
+    var health = 0; private set
+
+    fun damage() {
+    }
 
     override fun sendMessage(source: Identity, message: Component, type: MessageType) {
         player.sendMessage(source, message, type)
