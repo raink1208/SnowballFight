@@ -8,7 +8,7 @@ import net.kyori.adventure.title.TitlePart
 import org.bukkit.entity.Player
 
 class GamePlayer(val player: Player): Audience {
-    var status = PlayerStatus.SPECTATOR; private set
+    var status = PlayerStatus.GAME_READY
     var team: GameTeam? = null
     var health = 0; private set
 
@@ -32,6 +32,7 @@ class GamePlayer(val player: Player): Audience {
     }
 
     enum class PlayerStatus {
+        GAME_READY,
         SPECTATOR,
         IN_GAME
     }

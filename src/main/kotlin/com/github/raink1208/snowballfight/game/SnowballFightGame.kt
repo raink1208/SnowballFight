@@ -21,12 +21,14 @@ class SnowballFightGame {
     }
 
     fun end() {
-        HandlerList.unregisterAll(gameEventListener)
+        broadcastMessage("ゲームを終了します")
         gameStatus = GameStatus.AFTER_GAME
+
+        close()
     }
 
-    fun stop() {
-
+    fun close() {
+        HandlerList.unregisterAll(gameEventListener)
     }
 
     fun joinPlayer(player: Player) {
