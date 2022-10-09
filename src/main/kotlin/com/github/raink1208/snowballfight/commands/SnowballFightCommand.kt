@@ -8,7 +8,7 @@ import org.bukkit.command.TabCompleter
 import org.bukkit.util.StringUtil
 
 class SnowballFightCommand: CommandExecutor, TabCompleter {
-    private val subCommands = mutableListOf("create", "destroy")
+    private val subCommands = mutableListOf("create", "destroy", "start")
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (args.isEmpty()) return false
         when (args[0]) {
@@ -23,6 +23,14 @@ class SnowballFightCommand: CommandExecutor, TabCompleter {
             "destroy" -> {
                 Main.instance.destroyGame()
                 sender.sendMessage("ゲームを削除しました")
+            }
+            "start" -> {
+                val game = Main.instance.game
+                if (game == null) {
+                    sender.sendMessage("ゲームが見つかりません")
+                    return true
+                }
+                game.start()
             }
             else -> return false
         }
