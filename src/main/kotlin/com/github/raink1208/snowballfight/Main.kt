@@ -25,7 +25,7 @@ class Main: JavaPlugin(), Listener {
     }
 
     fun destroyGame() {
-        game?.close()
+        game?.end()
         game = null
     }
 

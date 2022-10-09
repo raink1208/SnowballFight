@@ -11,23 +11,30 @@ import java.util.*
 class SnowballFightGame {
     var gameStatus = GameStatus.BEFORE_GAME; private set
     private val gameEventListener = GameListener(this)
-    private val players = mutableMapOf<UUID,GamePlayer>()
-    private val teams = mutableMapOf<String, GameTeam>()
+    val players = mutableMapOf<UUID,GamePlayer>()
+    val teams = mutableMapOf<String, GameTeam>()
+
+    init {
+        Main.instance.server.pluginManager.registerEvents(gameEventListener, Main.instance)
+    }
 
     fun start() {
         broadcastMessage("ゲームを開始します")
         gameStatus = GameStatus.IN_GAME
-        Main.instance.server.pluginManager.registerEvents(gameEventListener, Main.instance)
+    }
+
+    fun update() {
+        teamCheck()
+    }
+
+    private fun teamCheck() {
+        val surviveTeam = teams.filter { it.value.isDemolition() }
+        if (surviveTeam.size == 1) end()
     }
 
     fun end() {
         broadcastMessage("ゲームを終了します")
         gameStatus = GameStatus.AFTER_GAME
-
-        close()
-    }
-
-    fun close() {
         HandlerList.unregisterAll(gameEventListener)
     }
 
@@ -35,6 +42,18 @@ class SnowballFightGame {
         val gamePlayer = GamePlayer(player)
         players[player.uniqueId] = gamePlayer
         broadcastMessage(player.name + "が参加しました")
+    }
+
+    fun leavePlayer(gamePlayer: GamePlayer) {
+        val team = gamePlayer.team
+        if (team != null) {
+            team.leaveTeam(gamePlayer)
+            if (team.member.isEmpty()) {
+                deleteTeam(team.teamName)
+            }
+        }
+        players.remove(gamePlayer.player.uniqueId)
+        broadcastMessage(gamePlayer.player.name + "が退出しました")
     }
 
     fun getGamePlayer(player: Player): GamePlayer? {
@@ -45,7 +64,13 @@ class SnowballFightGame {
         if (teams.containsKey(name)) return false
         val team = GameTeam(name)
         teams[name] = team
+        broadcastMessage("チーム: " + name + "が作成されました")
         return true
+    }
+
+    fun deleteTeam(name: String) {
+        teams.remove(name)
+        broadcastMessage("チーム: " + name + "が削除されました")
     }
 
     fun getTeam(name: String): GameTeam? {
