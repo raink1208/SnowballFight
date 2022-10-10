@@ -5,6 +5,7 @@ import org.bukkit.entity.Player
 import org.bukkit.entity.Snowball
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.entity.ProjectileHitEvent
 import org.bukkit.event.player.PlayerJoinEvent
@@ -27,6 +28,15 @@ class GameListener(private val game: SnowballFightGame): Listener {
         val kb = Vector(velocity.x, .5, velocity.z).multiply(hitGamePlayer.health.toDouble() / 5.0 + 1.0)
         hitPlayer.velocity = kb
         hitGamePlayer.damage()
+    }
+
+    @EventHandler
+    fun onFall(event: EntityDamageEvent) {
+        if (!inGame()) return
+        val player = event.entity as? Player ?: return
+        if (game.getGamePlayer(player) == null) return
+        if (event.cause == EntityDamageEvent.DamageCause.FALL)
+            event.isCancelled = true
     }
 
     @EventHandler
