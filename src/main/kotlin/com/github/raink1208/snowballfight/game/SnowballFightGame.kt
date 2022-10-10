@@ -60,12 +60,12 @@ class SnowballFightGame {
         return players[player.uniqueId]
     }
 
-    fun createTeam(name: String): Boolean {
-        if (teams.containsKey(name)) return false
+    fun createTeam(name: String): GameTeam? {
+        if (teams.containsKey(name)) return null
         val team = GameTeam(name)
         teams[name] = team
         broadcastMessage("チーム: " + name + "が作成されました")
-        return true
+        return team
     }
 
     fun deleteTeam(name: String) {
