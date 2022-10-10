@@ -13,6 +13,7 @@ class GamePlayer(val player: Player): Audience {
     var health = 0; private set
 
     fun damage() {
+        health++
     }
 
     override fun sendMessage(source: Identity, message: Component, type: MessageType) {

@@ -21,11 +21,11 @@ class GameListener(private val game: SnowballFightGame): Listener {
         val launchGamePlayer = game.getGamePlayer(launchPlayer) ?: return
         val hitGamePlayer = game.getGamePlayer(hitPlayer) ?: return
 
-        if (launchGamePlayer.team != null && hitGamePlayer.team != null) return
+        if (launchGamePlayer.team == null && hitGamePlayer.team == null) return
         if (launchGamePlayer.team == hitGamePlayer.team) return
         val velocity = snowball.velocity.normalize()
-        hitPlayer.velocity = Vector(velocity.x, 1.0, velocity.z)
-        hitPlayer.velocity.multiply(hitGamePlayer.health)
+        val kb = Vector(velocity.x, .5, velocity.z).multiply(hitGamePlayer.health.toDouble() / 5.0 + 1.0)
+        hitPlayer.velocity = kb
         hitGamePlayer.damage()
     }
 
