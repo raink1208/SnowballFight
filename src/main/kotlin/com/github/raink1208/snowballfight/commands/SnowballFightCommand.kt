@@ -25,12 +25,11 @@ class SnowballFightCommand: CommandExecutor, TabCompleter {
                 sender.sendMessage("ゲームを削除しました")
             }
             "start" -> {
-                val game = Main.instance.game
-                if (game == null) {
+                if (Main.instance.game == null) {
                     sender.sendMessage("ゲームが見つかりません")
                     return true
                 }
-                game.start()
+                Main.instance.gameStart()
             }
             else -> return false
         }

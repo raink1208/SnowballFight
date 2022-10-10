@@ -24,6 +24,10 @@ class Main: JavaPlugin(), Listener {
         return false
     }
 
+    fun gameStart() {
+        game?.start()
+    }
+
     fun destroyGame() {
         game?.end()
         game = null
