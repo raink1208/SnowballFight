@@ -27,7 +27,7 @@ bukkit {
     commands {
         register("snowballfight") {
             description = "雪合戦管理用コマンド"
-            aliases = listOf("sfb")
+            aliases = listOf("sbf")
             permission = "snowballfightgame.command"
         }
     }
