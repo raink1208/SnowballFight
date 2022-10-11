@@ -5,12 +5,32 @@ import net.kyori.adventure.audience.MessageType
 import net.kyori.adventure.identity.Identity
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.title.TitlePart
+import org.bukkit.GameMode
+import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 
 class GamePlayer(val player: Player): Audience {
     var status = PlayerStatus.GAME_READY
     var team: GameTeam? = null
     var health = 0; private set
+
+    fun initPlayer() {
+        player.inventory.clear()
+        for (activePotionEffect in player.activePotionEffects) {
+            player.removePotionEffect(activePotionEffect.type)
+        }
+        player.inventory.addItem(ItemStack(Material.SNOWBALL, 3))
+        player.health = 20.0
+        player.foodLevel = 20
+
+        if (status == PlayerStatus.SPECTATOR) {
+            player.gameMode = GameMode.SPECTATOR
+            return
+        }
+        player.gameMode = GameMode.ADVENTURE
+        status = PlayerStatus.IN_GAME
+    }
 
     fun damage() {
         health++
