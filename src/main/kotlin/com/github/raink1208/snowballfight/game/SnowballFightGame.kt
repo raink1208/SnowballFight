@@ -21,6 +21,14 @@ class SnowballFightGame {
     fun start() {
         broadcastMessage("ゲームを開始します")
         gameStatus = GameStatus.IN_GAME
+
+        for ((_, player) in players) {
+            player.initPlayer()
+            if (player.team == null) {
+                val team = createTeam()
+                team?.joinTeam(player)
+            }
+        }
     }
 
     fun update() {
@@ -60,8 +68,8 @@ class SnowballFightGame {
         return players[player.uniqueId]
     }
 
-    fun createTeam(name: String): GameTeam? {
-        if (teams.containsKey(name)) return null
+    fun createTeam(): GameTeam {
+        val name = "team-" + teams.size
         val team = GameTeam(name)
         teams[name] = team
         broadcastMessage("チーム: " + name + "が作成されました")
