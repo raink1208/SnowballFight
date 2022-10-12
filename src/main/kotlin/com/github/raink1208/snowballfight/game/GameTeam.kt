@@ -3,8 +3,9 @@ package com.github.raink1208.snowballfight.game
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.audience.ForwardingAudience
 import net.kyori.adventure.text.Component
+import org.bukkit.Location
 
-class GameTeam(val teamName: String): ForwardingAudience {
+class GameTeam(val teamName: String, val spawnLocation: Location): ForwardingAudience {
     val member = mutableListOf<GamePlayer>()
 
     fun joinTeam(gamePlayer: GamePlayer) {

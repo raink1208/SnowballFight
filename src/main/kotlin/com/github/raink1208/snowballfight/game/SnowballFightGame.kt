@@ -8,7 +8,7 @@ import org.bukkit.event.HandlerList
 import java.util.*
 
 
-class SnowballFightGame {
+class SnowballFightGame(val map: GameMap) {
     var gameStatus = GameStatus.BEFORE_GAME; private set
     private val gameEventListener = GameListener(this)
     val players = mutableMapOf<UUID,GamePlayer>()
@@ -16,6 +16,7 @@ class SnowballFightGame {
 
     init {
         Main.instance.server.pluginManager.registerEvents(gameEventListener, Main.instance)
+        createTeam()
     }
 
     fun start() {
@@ -24,10 +25,6 @@ class SnowballFightGame {
 
         for ((_, player) in players) {
             player.initPlayer()
-            if (player.team == null) {
-                val team = createTeam()
-                team.joinTeam(player)
-            }
         }
     }
 
@@ -68,12 +65,12 @@ class SnowballFightGame {
         return players[player.uniqueId]
     }
 
-    fun createTeam(): GameTeam {
-        val name = "team-" + teams.size
-        val team = GameTeam(name)
-        teams[name] = team
-        broadcastMessage("チーム: " + name + "が作成されました")
-        return team
+    private fun createTeam() {
+        for ((i, spawn) in map.spawnLocations.withIndex()) {
+            val name = "team-" + (i+1)
+            val team = GameTeam(name, spawn)
+            teams[name] = team
+        }
     }
 
     fun deleteTeam(name: String) {
