@@ -26,7 +26,7 @@ class SnowballFightGame {
             player.initPlayer()
             if (player.team == null) {
                 val team = createTeam()
-                team?.joinTeam(player)
+                team.joinTeam(player)
             }
         }
     }
