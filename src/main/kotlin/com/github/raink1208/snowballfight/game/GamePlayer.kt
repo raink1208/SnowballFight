@@ -16,6 +16,11 @@ class GamePlayer(val player: Player): Audience {
     var health = 0; private set
 
     fun initPlayer() {
+        if (team == null) status = PlayerStatus.SPECTATOR
+        if (status == PlayerStatus.SPECTATOR) {
+            player.gameMode = GameMode.SPECTATOR
+            return
+        }
         player.inventory.clear()
         for (activePotionEffect in player.activePotionEffects) {
             player.removePotionEffect(activePotionEffect.type)
@@ -24,10 +29,6 @@ class GamePlayer(val player: Player): Audience {
         player.health = 20.0
         player.foodLevel = 20
 
-        if (status == PlayerStatus.SPECTATOR) {
-            player.gameMode = GameMode.SPECTATOR
-            return
-        }
         player.gameMode = GameMode.ADVENTURE
         status = PlayerStatus.IN_GAME
     }
