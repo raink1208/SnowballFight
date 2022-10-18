@@ -1,6 +1,7 @@
 package com.github.raink1208.snowballfight.commands
 
 import com.github.raink1208.snowballfight.Main
+import com.github.raink1208.snowballfight.util.GameMapConfig
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -13,7 +14,16 @@ class SnowballFightCommand: CommandExecutor, TabCompleter {
         if (args.isEmpty()) return false
         when (args[0]) {
             "create" -> {
-                val res = Main.instance.createGame()
+                if (args.size != 2) {
+                    sender.sendMessage("/snowballfight create <mapName>")
+                    return true
+                }
+                val map = GameMapConfig.getGameMap(args[1])
+                if (map == null) {
+                    sender.sendMessage("マップが見つかりません")
+                    return true
+                }
+                val res = Main.instance.createGame(map)
                 if (res) {
                     sender.sendMessage("ゲームを作成しました")
                 } else {

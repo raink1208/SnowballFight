@@ -1,6 +1,7 @@
 package com.github.raink1208.snowballfight
 
 import com.github.raink1208.snowballfight.commands.SnowballFightCommand
+import com.github.raink1208.snowballfight.game.GameMap
 import com.github.raink1208.snowballfight.game.SnowballFightGame
 import com.github.raink1208.snowballfight.util.GameMapConfig
 import org.bukkit.plugin.java.JavaPlugin
@@ -13,9 +14,9 @@ class Main: JavaPlugin() {
 
     var game: SnowballFightGame? = null; private set
 
-    fun createGame(): Boolean {
+    fun createGame(map: GameMap): Boolean {
         if (game == null) {
-            game = SnowballFightGame()
+            game = SnowballFightGame(map)
             return true
         }
         return false
