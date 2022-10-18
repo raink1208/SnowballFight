@@ -2,6 +2,7 @@ package com.github.raink1208.snowballfight
 
 import com.github.raink1208.snowballfight.commands.SnowballFightCommand
 import com.github.raink1208.snowballfight.game.SnowballFightGame
+import com.github.raink1208.snowballfight.util.GameMapConfig
 import org.bukkit.plugin.java.JavaPlugin
 
 class Main: JavaPlugin() {
@@ -31,6 +32,8 @@ class Main: JavaPlugin() {
 
     override fun onEnable() {
         instance = this
+
+        GameMapConfig.saveDefaultConfig()
 
         getCommand("snowballfight")?.run {
             val command = SnowballFightCommand()
