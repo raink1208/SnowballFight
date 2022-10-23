@@ -67,11 +67,6 @@ class SnowballFightGame(val map: GameMap) {
         }
     }
 
-    fun deleteTeam(name: String) {
-        teams.remove(name)
-        broadcastMessage("チーム: " + name + "が削除されました")
-    }
-
     fun getTeam(name: String): GameTeam? {
         return teams[name]
     }
