@@ -50,13 +50,7 @@ class SnowballFightGame(val map: GameMap) {
     }
 
     fun leavePlayer(gamePlayer: GamePlayer) {
-        val team = gamePlayer.team
-        if (team != null) {
-            team.leaveTeam(gamePlayer)
-            if (team.member.isEmpty()) {
-                deleteTeam(team.teamName)
-            }
-        }
+        gamePlayer.team?.leaveTeam(gamePlayer)
         players.remove(gamePlayer.player.uniqueId)
         broadcastMessage(gamePlayer.player.name + "が退出しました")
     }
