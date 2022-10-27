@@ -29,6 +29,8 @@ class GamePlayer(val player: Player): Audience {
         player.health = 20.0
         player.foodLevel = 20
 
+        player.teleport(team?.spawnLocation!!)
+
         player.gameMode = GameMode.ADVENTURE
         status = PlayerStatus.IN_GAME
     }
