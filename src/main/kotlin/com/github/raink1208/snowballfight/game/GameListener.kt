@@ -59,7 +59,6 @@ class GameListener(private val game: SnowballFightGame): Listener {
         val gamePlayer = game.getGamePlayer(event.player) ?: return
         gamePlayer.status = GamePlayer.PlayerStatus.SPECTATOR
         game.broadcastMessage(event.player.name + "が倒された")
-        game.update()
     }
 
     @EventHandler
@@ -67,7 +66,6 @@ class GameListener(private val game: SnowballFightGame): Listener {
         val gamePlayer = game.getGamePlayer(event.player) ?: return
         gamePlayer.status = GamePlayer.PlayerStatus.SPECTATOR
         gamePlayer.team?.sendMessage(Component.text(event.player.name + "が観戦モードになっています"))
-        game.update()
     }
 
     @EventHandler

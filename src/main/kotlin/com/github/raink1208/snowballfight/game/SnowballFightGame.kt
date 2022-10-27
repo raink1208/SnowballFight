@@ -12,6 +12,7 @@ import kotlin.collections.HashSet
 class SnowballFightGame(val map: GameMap) {
     var gameStatus = GameStatus.BEFORE_GAME; private set
     private val gameEventListener = GameListener(this)
+    private val gameTimer = GameTimer(this)
     val players = mutableMapOf<UUID,GamePlayer>()
     val teams = HashSet<GameTeam>()
 
@@ -29,11 +30,7 @@ class SnowballFightGame(val map: GameMap) {
         }
     }
 
-    fun update() {
-        teamCheck()
-    }
-
-    private fun teamCheck() {
+    fun teamCheck() {
         val surviveTeam = teams.filter { it.isDemolition() }
         if (surviveTeam.size == 1) end()
     }
