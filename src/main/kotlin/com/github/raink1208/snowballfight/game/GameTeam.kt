@@ -5,11 +5,14 @@ import net.kyori.adventure.audience.ForwardingAudience
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
 
-class GameTeam(val teamName: String, val spawnLocation: Location): ForwardingAudience {
+class GameTeam(val game: SnowballFightGame, val teamName: String, val spawnLocation: Location): ForwardingAudience {
     val member = mutableListOf<GamePlayer>()
 
     fun joinTeam(gamePlayer: GamePlayer) {
         if (gamePlayer.team != null) return
+        if (game.gameStatus == SnowballFightGame.GameStatus.IN_GAME) {
+            gamePlayer.sendMessage(Component.text("既にゲームが始まっているため参加できません"))
+        }
         member.add(gamePlayer)
         sendMessage(Component.text(gamePlayer.player.name + "がチームに参加しました"))
         gamePlayer.team = this
