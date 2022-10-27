@@ -6,13 +6,14 @@ import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.HandlerList
 import java.util.*
+import kotlin.collections.HashSet
 
 
 class SnowballFightGame(val map: GameMap) {
     var gameStatus = GameStatus.BEFORE_GAME; private set
     private val gameEventListener = GameListener(this)
     val players = mutableMapOf<UUID,GamePlayer>()
-    val teams = mutableMapOf<String, GameTeam>()
+    val teams = HashSet<GameTeam>()
 
     init {
         Main.instance.server.pluginManager.registerEvents(gameEventListener, Main.instance)
@@ -33,7 +34,7 @@ class SnowballFightGame(val map: GameMap) {
     }
 
     private fun teamCheck() {
-        val surviveTeam = teams.filter { it.value.isDemolition() }
+        val surviveTeam = teams.filter { it.isDemolition() }
         if (surviveTeam.size == 1) end()
     }
 
@@ -62,13 +63,13 @@ class SnowballFightGame(val map: GameMap) {
     private fun createTeam() {
         for ((i, spawn) in map.spawnLocations.withIndex()) {
             val name = "team-" + (i+1)
-            val team = GameTeam(name, spawn)
-            teams[name] = team
+            val team = GameTeam(this ,name, spawn)
+            teams.add(team)
         }
     }
 
     fun getTeam(name: String): GameTeam? {
-        return teams[name]
+        return teams.find { it.teamName == name }
     }
 
     fun broadcastMessage(msg: String) {
