@@ -1,8 +1,6 @@
 package com.github.raink1208.snowballfight.game
 
-import org.bukkit.scheduler.BukkitRunnable
-
-class GameTimer(private val game: SnowballFightGame): BukkitRunnable() {
+class GameTimer(private val game: SnowballFightGame): Runnable {
     override fun run() {
         game.teamCheck()
     }

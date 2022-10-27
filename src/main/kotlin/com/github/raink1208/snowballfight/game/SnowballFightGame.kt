@@ -28,6 +28,7 @@ class SnowballFightGame(val map: GameMap) {
         for ((_, player) in players) {
             player.initPlayer()
         }
+        Main.instance.server.scheduler.runTaskTimer(Main.instance, gameTimer, 0, 20)
     }
 
     fun teamCheck() {
