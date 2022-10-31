@@ -28,18 +28,19 @@ class SnowballFightGame(val map: GameMap) {
         for ((_, player) in players) {
             player.initPlayer()
         }
-        Main.instance.server.scheduler.runTaskTimer(Main.instance, gameTimer, 0, 20)
-    }
-
-    fun teamCheck() {
-        val surviveTeam = teams.filter { it.isDemolition() }
-        if (surviveTeam.size == 1) end()
+        gameTimer.runTaskTimer(Main.instance, 0, 20)
     }
 
     fun end() {
         broadcastMessage("ゲームを終了します")
         gameStatus = GameStatus.AFTER_GAME
         HandlerList.unregisterAll(gameEventListener)
+        gameTimer.cancel()
+    }
+
+    fun teamCheck() {
+        val surviveTeam = teams.filter { it.isDemolition() }
+        if (surviveTeam.size == 1) end()
     }
 
     fun joinPlayer(player: Player) {
@@ -61,7 +62,7 @@ class SnowballFightGame(val map: GameMap) {
     private fun createTeam() {
         for ((i, spawn) in map.spawnLocations.withIndex()) {
             val name = "team-" + (i+1)
-            val team = GameTeam(this ,name, spawn)
+            val team = GameTeam(this, name, spawn)
             teams.add(team)
         }
     }
