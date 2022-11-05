@@ -30,6 +30,11 @@ bukkit {
             aliases = listOf("sbf")
             permission = "snowballfightgame.command"
         }
+        register("snowballfightgame") {
+            description = "雪合戦ゲーム用コマンド"
+            aliases = listOf("sbfg")
+            permission = "snowballfightgame.command"
+        }
     }
     permissions {
         register("snowballfightgame.command")

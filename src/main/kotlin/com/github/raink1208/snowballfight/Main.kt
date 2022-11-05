@@ -1,5 +1,6 @@
 package com.github.raink1208.snowballfight
 
+import com.github.raink1208.snowballfight.commands.GameCommand
 import com.github.raink1208.snowballfight.commands.SnowballFightCommand
 import com.github.raink1208.snowballfight.game.GameMap
 import com.github.raink1208.snowballfight.game.SnowballFightGame
@@ -40,6 +41,10 @@ class Main: JavaPlugin() {
             val command = SnowballFightCommand()
             setExecutor(command)
             tabCompleter = command
+        }
+        getCommand("snowballfightgame")?.run {
+            val command = GameCommand()
+            setExecutor(command)
         }
     }
 }
