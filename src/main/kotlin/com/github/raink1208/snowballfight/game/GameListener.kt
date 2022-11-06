@@ -20,11 +20,13 @@ class GameListener(private val game: SnowballFightGame): Listener {
     @EventHandler
     fun onProjectileLaunch(event: ProjectileLaunchEvent) {
         if (!inGame()) return
-        if (event.entity is Snowball) return
+        if (event.entity !is Snowball) return
         val player = event.entity.shooter as? Player ?: return
         if (game.getGamePlayer(player) == null) return
-        Main.instance.server.scheduler.runTaskLaterAsynchronously(Main.instance,
-            Runnable { player.inventory.addItem(ItemStack(Material.SNOWBALL)) }, 3000)
+        Main.instance.server.scheduler.runTaskLater(Main.instance,
+            Runnable {
+                player.inventory.addItem(ItemStack(Material.SNOWBALL))
+            }, 200)
     }
 
     @EventHandler
