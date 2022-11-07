@@ -25,9 +25,12 @@ class GamePlayer(val player: Player): Audience {
         for (activePotionEffect in player.activePotionEffects) {
             player.removePotionEffect(activePotionEffect.type)
         }
+        health = 0
+
         player.inventory.addItem(ItemStack(Material.SNOWBALL, 3))
         player.health = 20.0
         player.foodLevel = 20
+        player.sendExperienceChange(0f, health)
 
         player.teleport(team?.spawnLocation!!)
 
@@ -37,6 +40,7 @@ class GamePlayer(val player: Player): Audience {
 
     fun damage() {
         health++
+        player.sendExperienceChange(health/10f, health)
     }
 
     override fun sendMessage(source: Identity, message: Component, type: MessageType) {
